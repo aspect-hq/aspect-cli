@@ -7,13 +7,13 @@ The command-line interface for Aspect, the media asset management platform — f
 macOS/Linux:
 
 ```sh
-curl -fsSL https://github.com/aspect-hq/aspect-cli/releases/latest/download/install.sh | sh
+curl -fsSL https://aspect.inc/cli/install.sh | sh
 ```
 
 Windows (PowerShell):
 
 ```powershell
-powershell -ExecutionPolicy Bypass -c "irm https://github.com/aspect-hq/aspect-cli/releases/latest/download/install.ps1 | iex"
+powershell -ExecutionPolicy Bypass -c "irm https://aspect.inc/cli/install.ps1 | iex"
 ```
 
 These installers work once the first release is published. After installing, the CLI keeps itself up to date with `aspect upgrade`.
