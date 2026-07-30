@@ -27,5 +27,11 @@ The CLI is built for agents: every command supports a global `--json` flag (incl
 An [agent skill](skills/aspect-cli/SKILL.md) teaches agents (Claude Code, Cursor, Codex, and others) how to use the CLI. Install it with:
 
 ```sh
+aspect skills add
+```
+
+or, without the CLI installed:
+
+```sh
 npx skills add aspect-hq/aspect-cli
 ```
