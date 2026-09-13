@@ -9,7 +9,7 @@ description: Work with Aspect, the media asset management platform, through its 
 
 ## Scope
 
-The CLI covers where Aspect meets the local machine: file transfers, mounted drives, and the local background daemon that powers them. For working within Aspect — searching assets, collections, metadata, comments, sharing, user management — use the Aspect MCP server's tools instead, and use the CLI only to move bytes. If the MCP server is not connected yet, connect it: `https://api.aspect.inc/mcp` (Streamable HTTP; OAuth sign-in or an `sk_` API key as a Bearer token; setup guide at https://aspect.inc/docs/api-reference/mcp).
+The CLI covers where Aspect meets the local machine: file transfers, mounted drives, and the local background daemon that powers them. For working within Aspect — asset searching, asset understanding, collections, metadata, comments, sharing, user management — use the Aspect MCP server's tools instead, and use the CLI only to move bytes. If the MCP server is not connected yet, connect it: `https://api.aspect.inc/mcp` (Streamable HTTP; OAuth sign-in or an `sk_` API key as a Bearer token; setup guide at https://aspect.inc/docs/api-reference/mcp).
 
 ## Setup
 
@@ -42,10 +42,12 @@ There is no `--workspace` flag. `~` resolves through the `ASPECT_WORKSPACE` env 
 
 ```sh
 aspect upload <local-file-or-dir>... aspect://<workspace>/<project>/<path> [--replace | --keep-both] [--detach] --json
-aspect download aspect://<workspace>/<project>/<path> [local-dir] [--replace | --keep-both] [--detach] --json
+aspect download aspect://<workspace>/<project>/<path> [local-dir] [--variant original|stream_proxy|preview] [--replace | --keep-both] [--detach] --json
 ```
 
 Name conflicts are skipped by default; `--replace` overwrites, `--keep-both` keeps both copies (mutually exclusive).
+
+`--variant` picks what to download: `original` (default), `stream_proxy` (the H.264 MP4 proxy, up to 1080p, with AAC audio when the source has audio, saved as `<name>_proxy.mp4`), or `preview` (the poster image, saved as `<name>_preview.<ext>`). Prefer `stream_proxy` when the bytes are for viewing or analysis rather than editing — it is far smaller than most originals. In a directory download, assets that have no such variant yet are left out rather than failing it; a single asset that lacks it fails the download.
 
 For large or long-running transfers, add `--detach`: the command returns immediately with a transfer id. Then either block on completion with `aspect transfer wait <id> --json` or poll `aspect transfer status <id> --json`. `aspect transfer list --json` shows all detached transfers; `aspect transfer cancel <id>` stops one.
 
