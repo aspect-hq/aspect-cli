@@ -55,4 +55,8 @@ For large or long-running transfers, add `--detach`: the command returns immedia
 
 `aspect mount aspect://Acme/MyProject --json` mounts a project (or a directory under it) as a local volume, so its files can be read and written with ordinary filesystem tools; `aspect unmount` removes it. Mounting needs platform prerequisites (FUSE on Linux, WinFSP on Windows); non-interactive runs never auto-install them — a structured failure explains what is missing, and `aspect doctor --json` diagnoses the environment.
 
-The background daemon starts automatically whenever a command needs it — never start it yourself; the `aspect daemon` commands exist for troubleshooting. `aspect status --json` shows the daemon, active mounts, and transfers at a glance.
+`aspect pin add aspect://Acme/MyProject/Renders --json` keeps a project, directory, or file downloaded for offline use on mounts (re-pinning is a no-op that returns the same pin); `aspect pin list --json` shows every pin with its sync status and synced/total bytes, and `aspect pin remove <url | pin-id>` unpins. A file that is offline only through a pinned parent has no pin of its own (`not_pinned`) — unpin the parent.
+
+`aspect settings list --json` lists every setting for Aspect on this computer (today, the cache and pin storage limits) with its name, current `value` and `unit`, and what it controls — read the names from there rather than guessing; `aspect settings set <setting> <value>` changes one, e.g. `aspect settings set cache-limit 200GB`. Sizes need a unit. The service refuses a limit under its minimum or a pin limit below what is already pinned (`daemon_error`).
+
+The background daemon starts automatically whenever a command needs it — never start it yourself; the `aspect daemon` commands exist for troubleshooting. `aspect status --json` shows the daemon, active mounts, an overall pin sync summary, and transfers at a glance.
